@@ -3,11 +3,16 @@ import AppKit
 
 struct SystemView: View {
     @ObservedObject var model: SnapshotsModel
+    @ObservedObject var memory: MemoryModel
+    @ObservedObject var schedule: ScheduleModel
     @State private var confirm = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                ScheduleCard(schedule: schedule)
+                MemoryCard(model: memory)
+                Divider()
                 Label("Time Machine · snapshots locales", systemImage: "clock.arrow.circlepath")
                     .font(.title3.bold())
                 Text("macOS guarda copias locales del disco aunque no tengas el disco de Time Machine conectado. Las borra solo cuando falta espacio, pero si tu System Data está inflado puedes eliminarlas a mano.")
@@ -87,6 +92,7 @@ struct MenuBarLabel: View {
 
 struct MenuBarView: View {
     @ObservedObject var volumes: VolumesModel
+    @ObservedObject var memory: MemoryModel
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
@@ -99,6 +105,8 @@ struct MenuBarView: View {
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
+            Divider()
+            MemoryCard(model: memory, compact: true)
             Divider()
             Picker("Avisar si quedan menos de", selection: $volumes.alertGB) {
                 Text("No avisar").tag(0)
@@ -117,6 +125,6 @@ struct MenuBarView: View {
             }
         }
         .padding(14)
-        .frame(width: 280)
+        .frame(width: 320)
     }
 }

@@ -4,13 +4,15 @@ import AppKit
 @main
 struct LimpiaMacApp: App {
     @StateObject private var volumes = VolumesModel()
+    @StateObject private var memory = MemoryModel()
+    @StateObject private var schedule = ScheduleModel()
 
     init() { NSApplication.shared.setActivationPolicy(.regular) }
 
     var body: some Scene {
-        Window("LimpiaMac", id: "main") { RootView(volumes: volumes) }
+        Window("LimpiaMac", id: "main") { RootView(volumes: volumes, memory: memory, schedule: schedule) }
             .defaultSize(width: 900, height: 620)
-        MenuBarExtra { MenuBarView(volumes: volumes) } label: { MenuBarLabel(volumes: volumes) }
+        MenuBarExtra { MenuBarView(volumes: volumes, memory: memory) } label: { MenuBarLabel(volumes: volumes) }
             .menuBarExtraStyle(.window)
     }
 }
@@ -42,6 +44,8 @@ struct RootView: View {
     @StateObject private var dups = DuplicatesModel()
     @StateObject private var downloads = DownloadsModel()
     @ObservedObject var volumes: VolumesModel
+    @ObservedObject var memory: MemoryModel
+    @ObservedObject var schedule: ScheduleModel
     @StateObject private var snapshots = SnapshotsModel()
 
     var body: some View {
@@ -59,7 +63,7 @@ struct RootView: View {
             case .dev: DevView(dev: dev, docker: docker)
             case .files: FilesView(big: bigFiles, dups: dups, volume: volumes.selected)
             case .downloads: DownloadsView(model: downloads)
-            case .system: SystemView(model: snapshots)
+            case .system: SystemView(model: snapshots, memory: memory, schedule: schedule)
             }
         }
         .frame(minWidth: 780, minHeight: 520)

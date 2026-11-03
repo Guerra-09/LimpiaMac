@@ -217,16 +217,7 @@ final class CleanerModel: ObservableObject {
         let chosen = targets.filter { selected.contains($0.id) }
         let before = selectedBytes
         cleaning = true
-        await Task.detached {
-            for t in chosen {
-                switch t.action {
-                case .emptyFolders(let urls): urls.forEach { emptyFolder($0) }
-                case .simctlUnavailable: runSimctlDeleteUnavailable()
-                case .junkFiles(let root):
-                    for u in junkFiles(in: root) { try? FileManager.default.removeItem(at: u) }
-                }
-            }
-        }.value
+        await performClean(chosen)
         cleaning = false
         await scan()
         let freed = max(0, before - selectedBytes)
