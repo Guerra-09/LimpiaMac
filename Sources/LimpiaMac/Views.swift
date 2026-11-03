@@ -3,15 +3,20 @@ import AppKit
 
 @main
 struct LimpiaMacApp: App {
+    @StateObject private var volumes = VolumesModel()
+
     init() { NSApplication.shared.setActivationPolicy(.regular) }
+
     var body: some Scene {
-        WindowGroup("LimpiaMac") { RootView() }
+        Window("LimpiaMac", id: "main") { RootView(volumes: volumes) }
             .defaultSize(width: 900, height: 620)
+        MenuBarExtra { MenuBarView(volumes: volumes) } label: { MenuBarLabel(volumes: volumes) }
+            .menuBarExtraStyle(.window)
     }
 }
 
 enum Tab: String, CaseIterable, Identifiable {
-    case clean = "Limpieza", disk = "Explorador de disco", apps = "Aplicaciones", dev = "Desarrollo", files = "Archivos", downloads = "Descargas y backups"
+    case clean = "Limpieza", disk = "Explorador de disco", apps = "Aplicaciones", dev = "Desarrollo", files = "Archivos", downloads = "Descargas y backups", system = "Sistema"
     var id: String { rawValue }
     var icon: String {
         switch self {
@@ -21,6 +26,7 @@ enum Tab: String, CaseIterable, Identifiable {
         case .dev: "hammer"
         case .files: "doc.on.doc"
         case .downloads: "arrow.down.circle"
+        case .system: "gearshape.2"
         }
     }
 }
@@ -35,7 +41,8 @@ struct RootView: View {
     @StateObject private var bigFiles = BigFilesModel()
     @StateObject private var dups = DuplicatesModel()
     @StateObject private var downloads = DownloadsModel()
-    @StateObject private var volumes = VolumesModel()
+    @ObservedObject var volumes: VolumesModel
+    @StateObject private var snapshots = SnapshotsModel()
 
     var body: some View {
         NavigationSplitView {
@@ -52,6 +59,7 @@ struct RootView: View {
             case .dev: DevView(dev: dev, docker: docker)
             case .files: FilesView(big: bigFiles, dups: dups, volume: volumes.selected)
             case .downloads: DownloadsView(model: downloads)
+            case .system: SystemView(model: snapshots)
             }
         }
         .frame(minWidth: 780, minHeight: 520)
