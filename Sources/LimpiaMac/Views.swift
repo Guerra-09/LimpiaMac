@@ -11,13 +11,14 @@ struct LimpiaMacApp: App {
 }
 
 enum Tab: String, CaseIterable, Identifiable {
-    case clean = "Limpieza", disk = "Explorador de disco", apps = "Aplicaciones"
+    case clean = "Limpieza", disk = "Explorador de disco", apps = "Aplicaciones", dev = "Desarrollo"
     var id: String { rawValue }
     var icon: String {
         switch self {
         case .clean: "sparkles"
         case .disk: "chart.pie"
         case .apps: "square.grid.2x2"
+        case .dev: "hammer"
         }
     }
 }
@@ -27,6 +28,8 @@ struct RootView: View {
     @StateObject private var cleaner = CleanerModel()
     @StateObject private var disk = DiskModel()
     @StateObject private var apps = AppsModel()
+    @StateObject private var dev = DevModel()
+    @StateObject private var docker = DockerModel()
     @StateObject private var volumes = VolumesModel()
 
     var body: some View {
@@ -41,6 +44,7 @@ struct RootView: View {
             case .clean: CleanView(model: cleaner)
             case .disk: DiskView(model: disk, volume: volumes.selected)
             case .apps: AppsView(model: apps, volume: volumes.selected)
+            case .dev: DevView(dev: dev, docker: docker)
             }
         }
         .frame(minWidth: 780, minHeight: 520)
