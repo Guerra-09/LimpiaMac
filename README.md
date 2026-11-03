@@ -2,10 +2,16 @@
 
 App para macOS (SwiftUI) que libera espacio en disco.
 
-- **Limpieza:** borra cachés, logs, DerivedData de Xcode y otros archivos que se regeneran solos.
-- **Explorador de disco:** ve qué ocupa espacio, en lista o en burbujas.
-- **Aplicaciones:** desinstala apps junto con sus restos (cachés, preferencias, logs).
-- **Varios discos:** elige el disco que quieres revisar, incluidos los externos.
+- **Limpieza:** cachés, logs, DerivedData de Xcode y otros archivos que se regeneran solos.
+- **Explorador de disco:** qué ocupa espacio, en lista o en burbujas.
+- **Aplicaciones:** desinstala apps con sus restos y busca restos de apps ya borradas.
+- **Desarrollo:** `node_modules`, `Pods`, venv y similares; limpieza de Docker.
+- **Archivos:** archivos grandes y antiguos, y duplicados exactos.
+- **Descargas y backups:** instaladores viejos y copias de seguridad de iPhone.
+- **Fotos parecidas:** en tu biblioteca de Fotos o en una carpeta.
+- **Sistema:** limpieza automática, uso de memoria y snapshots de Time Machine.
+- **Varios discos:** elige el disco a revisar, incluidos los externos.
+- **Barra de menú:** espacio libre, memoria y aviso de poco espacio.
 
 ## Requisitos
 
