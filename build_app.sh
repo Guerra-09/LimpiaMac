@@ -21,6 +21,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <key>CFBundleShortVersionString</key><string>0.1</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>NSHighResolutionCapable</key><true/>
+<key>NSPhotoLibraryUsageDescription</key><string>LimpiaMac analiza tus fotos para encontrar las parecidas y que decidas cuáles borrar.</string>
 </dict></plist>
 PLIST
 codesign --force --sign - "$APP"
